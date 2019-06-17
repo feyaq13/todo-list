@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "browser-sync start --directory --files src --server . --no-open"
+  },
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "browser-sync": "^2.26.7"
+  }
+}
