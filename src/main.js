@@ -53,43 +53,4 @@ buttonAddTask.addEventListener('click', function () {
 
   contain.innerHTML += templateHtml
   inputForTask.value = null
-
-  var objectField = document.getElementsByClassName('task-field')
-
-  localStorage.setItem(objectField, fieldToDo.value)
-  localStorage.objectField
-  // for (var i = 0; i < )
 })
-
-
-// // var objClassesOfElements = {
-// //   1: ['input-group', 'mb-3'],
-// //   2: 'input-group-prepend',
-// //   3: 'input-group-text'
-// // }
-
-// function addElementHTML(elem) {
-//   var inputGroupAndMb3 = document.createElement(elem);
-//   div.appendChild(inputGroupAndMb3);
-//   inputGroupAndMb3.classList.add('input-group', 'mb-3');
-//   inputGroupAndMb3.innerHTML = '<input type="text" class="form-control" aria-label="Text input with checkbox">'
-
-//   var inputGroupPrepend = document.createElement(elem)
-//   inputGroupAndMb3.appendChild(inputGroupPrepend)
-//   inputGroupPrepend.classList.add('input-group-prepend')
-
-//   var inputGroupText = document.createElement(elem)
-//   inputGroupPrepend.appendChild(inputGroupText)
-//   inputGroupText.classList.add('input-group-text')
-//   inputGroupText.innerHTML = '<input type="checkbox" aria-label="Checkbox for following text input"></input>'
-//   return inputGroupAndMb3
-// }
-
-// function addElementHTML () {
-//   const contain = document.getElementsByClassName('container')[1];
-//   var inputText = contain.insertAdjacentHTML(beforeEnd,'<input type="text" class="form-control" aria-label="Text input with checkbox">')
-//   var divInputGroupPrepend = contain.insertAdjacentHTML(afterBegin, '<div class="input-group-prepend"><div>')
-//   var divInputGroupText = divInputGroupPrepend.insertAdjacentHTML(afterBegin, '<div class="input-group-text">')
-//   var inputCheckbox = divInputGroupText.insertAdjacentHTML(afterBegin,'<input type="checkbox" aria-label="Checkbox for following text input"></input'>)
-//   return contain
-// }
