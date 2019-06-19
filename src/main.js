@@ -6,26 +6,55 @@ const buttonAddTask = searchButtonAddTask.getElementsByClassName('btn-add-task')
 
 const contain = document.getElementsByClassName('task-field')[0];
 
+const storedTodos = localStorage.todos
+const todos = storedTodos ? JSON.parse(storedTodos) : []
+
+for (const todo of todos) {
+  const templateHtml = `
+    <div class="container task-field">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <input type="checkbox" aria-label="Checkbox for following text input">
+          </div>
+        </div>
+        <input value="${todo}" type="text" class="form-control" aria-label="Text input with checkbox">
+      </div>
+    </div>
+  `
+
+  contain.innerHTML += templateHtml
+}
+
 buttonAddTask.addEventListener('click', function () {
+  var todoName = String(inputForTask.value);
 
-  var fieldTask = String(inputForTask.value);
+  if (!todoName) {
+    alert('Нельзя добавить пустую задачу');
 
-  if (fieldTask === false || fieldTask === "") {
-    return 'Нельзя добавить пустую задачу';
+    return
   }
 
-  // let element = addElementHTML('div');
+  todos.push(todoName)
+  localStorage.todos = JSON.stringify(todos)
 
-  contain.insertAdjacentHTML('afterBegin', '<div class="input-group mb-3"></div>')
-  document.getElementsByClassName('input-group')[1].insertAdjacentHTML('beforeEnd', '<input type="text" class="form-control" aria-label="Text input with checkbox">')
-  document.getElementsByClassName('input-group')[1].insertAdjacentHTML('afterBegin', '<div class="input-group-prepend"></div>')
-  document.getElementsByClassName('input-group-prepend')[0].insertAdjacentHTML('afterBegin', '<div class="input-group-text"></div>')
-  document.getElementsByClassName('input-group-text')[0].insertAdjacentHTML('beforeEnd', '<input type="checkbox" aria-label="Checkbox for following text input">')
+  const templateHtml = `
+    <div class="container task-field">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <input type="checkbox" aria-label="Checkbox for following text input">
+          </div>
+        </div>
+        <input value="${todoName}" type="text" class="form-control" aria-label="Text input with checkbox">
+      </div>
+    </div>
+  `
 
-  var fieldToDo = document.getElementsByClassName('form-control')[1]
-  fieldToDo.value = fieldTask
+  contain.innerHTML += templateHtml
   inputForTask.value = null
 })
+
 
 // // var objClassesOfElements = {
 // //   1: ['input-group', 'mb-3'],
