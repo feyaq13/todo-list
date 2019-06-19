@@ -25,7 +25,14 @@ buttonAddTask.addEventListener('click', function () {
   var fieldToDo = document.getElementsByClassName('form-control')[1]
   fieldToDo.value = fieldTask
   inputForTask.value = null
+
+  var objectField = document.getElementsByClassName('task-field')
+
+  localStorage.setItem(objectField, fieldToDo.value)
+  localStorage.objectField
+  // for (var i = 0; i < )
 })
+
 
 // // var objClassesOfElements = {
 // //   1: ['input-group', 'mb-3'],
