@@ -24,6 +24,7 @@ buttonAddTask.addEventListener('click', function () {
 
   var fieldToDo = document.getElementsByClassName('form-control')[1]
   fieldToDo.value = fieldTask
+  inputForTask.value = null
 })
 
 // // var objClassesOfElements = {
