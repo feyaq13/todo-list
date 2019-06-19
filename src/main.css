@@ -1,3 +1,9 @@
 .container {
   max-width: 960px;
 }
+
+@media (max-width: 575.98px) {
+  html {
+    font-size: 10px;
+  }
+ }
