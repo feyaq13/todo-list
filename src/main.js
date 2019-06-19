@@ -10,21 +10,6 @@ const storedTodos = localStorage.todos
 const todos = storedTodos ? JSON.parse(storedTodos) : []
 
 for (const todo of todos) {
-
-  // addFragmentHtml(todo)
-  // const templateHtml = `
-  //   <div class="container task-field">
-  //     <div class="input-group mb-3">
-  //       <div class="input-group-prepend">
-  //         <div class="input-group-text">
-  //           <input type="checkbox" aria-label="Checkbox for following text input">
-  //         </div>
-  //       </div>
-  //       <input value="${todo}" type="text" class="form-control" aria-label="Text input with checkbox">
-  //     </div>
-  //   </div>
-  // `
-
   contain.innerHTML += addFragmentHtml(todo)
 }
 
@@ -40,27 +25,12 @@ buttonAddTask.addEventListener('click', function () {
   todos.push(todoName)
   localStorage.todos = JSON.stringify(todos)
 
-  // const templateHtml = `
-  //   <div class="container task-field">
-  //     <div class="input-group mb-3">
-  //       <div class="input-group-prepend">
-  //         <div class="input-group-text">
-  //           <input type="checkbox" aria-label="Checkbox for following text input">
-  //         </div>
-  //       </div>
-  //       <input value="${todoName}" type="text" class="form-control" aria-label="Text input with checkbox">
-  //     </div>
-  //   </div>
-  // `
-
-  // contain.innerHTML += templateHtml
-  contain.innerHTML +=  addFragmentHtml(todoName)
+  contain.innerHTML += addFragmentHtml(todoName)
   inputForTask.value = null
 })
 
 function addFragmentHtml(name) {
   const templateHtml = `
-  <div class="container task-field">
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <div class="input-group-text">
@@ -69,7 +39,6 @@ function addFragmentHtml(name) {
       </div>
       <input value="${name}" type="text" class="form-control" aria-label="Text input with checkbox">
     </div>
-  </div>
 `
   return templateHtml
 }
