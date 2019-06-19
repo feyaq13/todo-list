@@ -21,6 +21,9 @@ buttonAddTask.addEventListener('click', function () {
   document.getElementsByClassName('input-group')[1].insertAdjacentHTML('afterBegin', '<div class="input-group-prepend"></div>')
   document.getElementsByClassName('input-group-prepend')[0].insertAdjacentHTML('afterBegin', '<div class="input-group-text"></div>')
   document.getElementsByClassName('input-group-text')[0].insertAdjacentHTML('beforeEnd', '<input type="checkbox" aria-label="Checkbox for following text input">')
+
+  var fieldToDo = document.getElementsByClassName('form-control')[1]
+  fieldToDo.value = fieldTask
 })
 
 // // var objClassesOfElements = {
