@@ -7,3 +7,8 @@
     font-size: 10px;
   }
  }
+
+
+.task-hidden {
+  display: none;
+}
