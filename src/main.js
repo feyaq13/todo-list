@@ -1,5 +1,5 @@
 const searchInputForTask = document.getElementsByClassName('input-group')[0]
-const inputForTask = searchInputForTask.getElementsByClassName('input-add-tasks')[0]
+const inputForTask = searchInputForTask.getElementsByClassName('input-add-task')[0]
 
 const searchButtonAddTask = searchInputForTask.getElementsByClassName('input-group-append')[0]
 const buttonAddTask = searchButtonAddTask.getElementsByClassName('btn-add-task')[0]
