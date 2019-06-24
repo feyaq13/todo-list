@@ -1,7 +1,5 @@
 init()
 
-// TLDR: на данный момент добавленные элементы появляются только после обновления страницы :(
-
 /**
  * Восстанавливает модель из localStorage или создает новую
  */
@@ -16,15 +14,10 @@ function restoreOrCreateModel() {
     return JSON.parse(localStorage.todosModel)
   }
 
-  // получить доступ и записывать сюда? как?!
-
   // создаёт модель
   const todosModel = {
     // сюда нужно добавлять при нажатии на кнопку "Добавить"
-    currentTodos: [
-      'foo',
-      'bar'
-    ],
+    currentTodos: [],
 
     // пока вообще никак не используется :(
     finishedTodos: []
@@ -46,9 +39,9 @@ function addTodo(todoName, model) {
   model.currentTodos.push(todoName)
 
   clearFieldTask()
-  saveModel(model)
 
-  // return model
+  saveModel(model)
+  renderModel(model)
 }
 
 // отдаёт значение поля таски
@@ -59,18 +52,15 @@ function getTodoName() {
 
 // очищает поле ввода таски
 function clearFieldTask() {
-  document.getElementsByClassName('input-add-task')[0] = null
+  document.getElementsByClassName('input-add-task')[0].value = null
 }
 
 /**
  * Сохраняет модель в localStorage
  */
 function saveModel(model) {
-  // написана хрень, работает соответствующе
-  const storedTodos = localStorage.todosModel
-  const todos = storedTodos ? JSON.parse(storedTodos) : []
-
-  // todos.push(model)
+  // const storedTodos = localStorage.todosModel
+  // const todos = storedTodos ? JSON.parse(storedTodos) : []
   localStorage.todosModel = JSON.stringify(model)
 }
 
@@ -82,6 +72,8 @@ function renderModel(model) {
   model = restoreOrCreateModel()
 
   const tasksContainer = document.getElementsByClassName('all-tasks-field')[0]
+
+  tasksContainer.innerHTML = ''
 
   for (const todo of model.currentTodos) {
     tasksContainer.innerHTML += addFragmentHtml(todo)
@@ -113,8 +105,7 @@ function init() {
 
   inputForTask.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
-      // addTodo() // было так
-      addTodo
+      addTodo()
     }
   })
   //
@@ -131,8 +122,7 @@ function init() {
   const tasksContainer = document.getElementsByClassName('all-tasks-field')[0]
 
   tasksContainer.addEventListener('click', function (event) {
-
-    // проверяем на что нажимаем пользователь, при попадании мимо нужного блока, просто будет выход из функции
+    // проверяем на что нажимает пользователь: при попадании мимо нужного блока, просто будет выход из функции
     if (event.target === tasksContainer) {
       return
     }
@@ -147,6 +137,5 @@ function init() {
 
   const model = restoreOrCreateModel()
   // model === todosModel
-  // (пустая из-за невозможности доступа)
   renderModel(model)
 }
