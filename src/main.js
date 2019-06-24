@@ -94,15 +94,14 @@ function renderModel(model) {
  */
 function init() {
 
-  // добавляет карточку по нажатию на ENTER
   const inputForTask = document.getElementsByClassName('input-add-task')[0]
 
+  // добавляет карточку по нажатию на ENTER
   inputForTask.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
       addTodo()
     }
   })
-  //
 
   // добавляет карточку по нажатию кнопки "Добавить"
   const buttonAddTask = document.getElementsByClassName('btn-add-task')[0]
@@ -115,11 +114,14 @@ function init() {
   const taskListDone = document.getElementsByClassName('task-list-done')[0]
   const tasksContainer = document.getElementsByClassName('all-tasks-field')[0]
 
+
   tasksContainer.addEventListener('click', function (event) {
     // проверяем на что нажимает пользователь: при попадании мимо нужного блока, просто будет выход из функции
     if (event.target === tasksContainer) {
       return
     }
+
+    checkedTask()
 
     const element = $(event.target.offsetParent).slideToggle('fast', function () {
       tasksDone.appendChild(element.get(0))
@@ -132,4 +134,15 @@ function init() {
   const model = restoreOrCreateModel()
   // model === todosModel
   renderModel(model)
+}
+
+function checkedTask() { // toggleCheckTask()
+  const inputCheckbox = document.getElementsByClassName('input-checkbox')[0]
+
+  // if (inputCheckbox.checked === false) {
+    inputCheckbox.checked = true
+  // } else {
+    // inputCheckbox.checked = false
+  // }
+
 }
