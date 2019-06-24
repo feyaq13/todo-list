@@ -18,8 +18,6 @@ function restoreOrCreateModel() {
   const todosModel = {
     // сюда нужно добавлять при нажатии на кнопку "Добавить"
     currentTodos: [],
-
-    // пока вообще никак не используется :(
     finishedTodos: []
   }
 
@@ -59,8 +57,6 @@ function clearFieldTask() {
  * Сохраняет модель в localStorage
  */
 function saveModel(model) {
-  // const storedTodos = localStorage.todosModel
-  // const todos = storedTodos ? JSON.parse(storedTodos) : []
   localStorage.todosModel = JSON.stringify(model)
 }
 
@@ -68,11 +64,9 @@ function saveModel(model) {
  * Визуализирует модель на странице
  */
 function renderModel(model) {
-  // сделать проверку на завершённые (есть галочка) / незавершённые-возобновлённые (нет галочки)
+
   model = restoreOrCreateModel()
-
   const tasksContainer = document.getElementsByClassName('all-tasks-field')[0]
-
   tasksContainer.innerHTML = ''
 
   for (const todo of model.currentTodos) {
