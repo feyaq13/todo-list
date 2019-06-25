@@ -18,7 +18,7 @@ function restoreOrCreateModel() {
   const todosModel = {
     // сюда нужно добавлять при нажатии на кнопку "Добавить"
     currentTodos: [],
-    finishedTodos: []
+    finishedTodos: ['ds']
   }
 
   return todosModel
@@ -66,11 +66,19 @@ function saveModel(model) {
 function renderModel(model) {
 
   model = restoreOrCreateModel()
+
   const tasksContainer = document.getElementsByClassName('all-tasks-field')[0]
+  const tasksDone = document.getElementsByClassName('tasks-done')[0]
+
   tasksContainer.innerHTML = ''
+  // tasksDone.innerHTML = ''
 
   for (const todo of model.currentTodos) {
     tasksContainer.innerHTML += addFragmentHtml(todo)
+  }
+
+  for (const todo of model.finishedTodos) {
+    tasksDone.innerHTML += addFragmentHtml(todo)
   }
 
   function addFragmentHtml(name) {
@@ -121,14 +129,14 @@ function init() {
       return
     }
 
-    checkedTask()
+     checkedTask(event)
 
     const element = $(event.target.offsetParent).slideToggle('fast', function () {
       tasksDone.appendChild(element.get(0))
       element.slideToggle()
     })
 
-    taskListDone.innerHTML = 'Завершённые задачи'
+    taskListDone.textContent = 'Завершённые задачи'
   })
 
   const model = restoreOrCreateModel()
@@ -136,13 +144,24 @@ function init() {
   renderModel(model)
 }
 
-function checkedTask() { // toggleCheckTask()
-  const inputCheckbox = document.getElementsByClassName('input-checkbox')[0]
-
-  // if (inputCheckbox.checked === false) {
-    inputCheckbox.checked = true
-  // } else {
-    // inputCheckbox.checked = false
-  // }
-
+function checkedTask(event) { // toggleCheckTask()
+  event.target.offsetParent.getElementsByClassName('input-checkbox')[0].checked = true
 }
+
+// function doneTodo(todoName, model) {
+//   model = restoreOrCreateModel()
+//   todoName = getTodoName()
+
+//   if (!todoName) {
+//     alert('Нельзя добавить пустую задачу')
+
+//     return
+//   }
+
+//   model.finishedTodos.push(todoName)
+
+//   clearFieldTask()
+
+//   saveModel(model)
+//   renderModel(model)
+// }
