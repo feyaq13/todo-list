@@ -16,8 +16,9 @@ function restoreOrCreateModel() {
 
   // создаёт модель
   const todosModel = {
-    // сюда нужно добавлять при нажатии на кнопку "Добавить"
+    // добавляется при нажатии на кнопку "Добавить"
     currentTodos: [],
+    // перемещается по клику на таске, которая уже существует
     finishedTodos: []
   }
 
@@ -28,6 +29,7 @@ function addTodo(todoName, model) {
   model = restoreOrCreateModel()
   todoName = getTodoName()
 
+  // TODO: сделать нормальную валидацию
   if (!todoName) {
     alert('Нельзя добавить пустую задачу')
 
@@ -40,7 +42,6 @@ function addTodo(todoName, model) {
 
   saveModel(model)
   renderModel(model)
-  // renderDoneTodo(model)
 }
 
 // отдаёт значение поля таски
@@ -64,6 +65,7 @@ function saveModel(model) {
 /**
  * Визуализирует модель на странице
  */
+// TODO: проверить количество отрисовок
 function renderModel(model) {
 
   model = restoreOrCreateModel()
@@ -76,7 +78,7 @@ function renderModel(model) {
     tasksContainer.innerHTML += addFragmentHtml(todo)
   }
 
-
+  // TODO: сделать шаблонизацию
   function addFragmentHtml(name) {
     const templateHtml = `
       <div class="input-group mb-3 task">
@@ -109,6 +111,7 @@ function renderDoneTodo(model) {
     tasksDone.innerHTML += addFragmentHtml(todo)
   }
 
+  // TODO: сделать шаблонизацию
   function addFragmentHtml(name) {
     const templateHtml = `
       <div class="input-group mb-3 task">
@@ -162,7 +165,7 @@ function init() {
 
       // doneTodo(element, model)
       tasksDoneBlock.appendChild(element.get(0))
-       element.slideToggle()
+      element.slideToggle()
     })
 
   })
@@ -172,8 +175,9 @@ function init() {
   renderDoneTodo(model)
 }
 
+// TODO: сделать функцию-проверку таски, на наличие метки checked внезависимости от того, находится ли она в currentTodos или в finishedTodos
 function checkedTask(event) { // toggleCheckTask()
-   event.target.offsetParent.getElementsByClassName('input-checkbox')[0].checked = true
+  event.target.offsetParent.getElementsByClassName('input-checkbox')[0].checked = true
 }
 
 function doneTodo(element, model) {
