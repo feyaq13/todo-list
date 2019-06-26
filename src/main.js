@@ -18,7 +18,7 @@ function restoreOrCreateModel() {
   const todosModel = {
     // сюда нужно добавлять при нажатии на кнопку "Добавить"
     currentTodos: [],
-    finishedTodos: ['ds']
+    finishedTodos: []
   }
 
   return todosModel
@@ -40,6 +40,7 @@ function addTodo(todoName, model) {
 
   saveModel(model)
   renderModel(model)
+  // renderDoneTodo(model)
 }
 
 // отдаёт значение поля таски
@@ -68,13 +69,40 @@ function renderModel(model) {
   model = restoreOrCreateModel()
 
   const tasksContainer = document.getElementsByClassName('all-tasks-field')[0]
-  const tasksDone = document.getElementsByClassName('tasks-done')[0]
 
   tasksContainer.innerHTML = ''
-  // tasksDone.innerHTML = ''
 
   for (const todo of model.currentTodos) {
     tasksContainer.innerHTML += addFragmentHtml(todo)
+  }
+
+
+  function addFragmentHtml(name) {
+    const templateHtml = `
+      <div class="input-group mb-3 task">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <input class="input-checkbox" type="checkbox" aria-label="Checkbox for following text input">
+          </div>
+        </div>
+        <input value="${name}" type="text" class="form-control input-task_checked" aria-label="Text input with checkbox">
+      </div>
+  `
+    return templateHtml
+  }
+}
+
+function renderDoneTodo(model) {
+
+  model = restoreOrCreateModel()
+
+  const tasksListDone = document.getElementsByClassName('tasks-list-done')[0]
+  const tasksDone = document.getElementsByClassName('tasks-done')[0]
+
+  tasksDone.innerHTML = ''
+
+  if (model.finishedTodos.length > 0) {
+    tasksListDone.textContent = 'Завершённые задачи'
   }
 
   for (const todo of model.finishedTodos) {
@@ -86,7 +114,7 @@ function renderModel(model) {
       <div class="input-group mb-3 task">
         <div class="input-group-prepend">
           <div class="input-group-text">
-            <input class="input-checkbox" type="checkbox" aria-label="Checkbox for following text input">
+            <input class="input-checkbox" type="checkbox" checked aria-label="Checkbox for following text input">
           </div>
         </div>
         <input value="${name}" type="text" class="form-control input-task_checked" aria-label="Text input with checkbox">
@@ -118,8 +146,7 @@ function init() {
   //
 
   // управляет задачами помеченными как "завершенные"
-  const tasksDone = document.getElementsByClassName('tasks-done')[0]
-  const taskListDone = document.getElementsByClassName('task-list-done')[0]
+  const tasksDoneBlock = document.getElementsByClassName('tasks-done')[0]
   const tasksContainer = document.getElementsByClassName('all-tasks-field')[0]
 
 
@@ -129,39 +156,35 @@ function init() {
       return
     }
 
-     checkedTask(event)
+    checkedTask(event)
 
     const element = $(event.target.offsetParent).slideToggle('fast', function () {
-      tasksDone.appendChild(element.get(0))
-      element.slideToggle()
+
+      // doneTodo(element, model)
+      tasksDoneBlock.appendChild(element.get(0))
+       element.slideToggle()
     })
 
-    taskListDone.textContent = 'Завершённые задачи'
   })
 
   const model = restoreOrCreateModel()
-  // model === todosModel
   renderModel(model)
+  renderDoneTodo(model)
 }
 
 function checkedTask(event) { // toggleCheckTask()
-  event.target.offsetParent.getElementsByClassName('input-checkbox')[0].checked = true
+   event.target.offsetParent.getElementsByClassName('input-checkbox')[0].checked = true
 }
 
-// function doneTodo(todoName, model) {
-//   model = restoreOrCreateModel()
-//   todoName = getTodoName()
+function doneTodo(element, model) {
+  model = restoreOrCreateModel()
 
-//   if (!todoName) {
-//     alert('Нельзя добавить пустую задачу')
+  const doneTask = element[0].getElementsByClassName('input-task_checked')[0].value
 
-//     return
-//   }
+  model.currentTodos.splice(model.currentTodos.indexOf(doneTask), 1)
+  model.finishedTodos.push(doneTask)
 
-//   model.finishedTodos.push(todoName)
-
-//   clearFieldTask()
-
-//   saveModel(model)
-//   renderModel(model)
-// }
+  saveModel(model)
+  renderModel(model)
+  renderDoneTodo(model)
+}
