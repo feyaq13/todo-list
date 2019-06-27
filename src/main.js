@@ -120,11 +120,14 @@ function init() {
   const tasksContainer = document.getElementsByClassName("all-tasks-field")[0];
   tasksContainer.addEventListener("click", checkTarget);
 
+  const tasksDoneContainer = document.getElementsByClassName("tasks-done")[0];
+  tasksDoneContainer.addEventListener("click", checkTarget)
+
   renderModel(model);
 
   function checkTarget(event) {
     // проверяем на что нажимает пользователь: при попадании мимо нужного блока, просто будет выход из функции
-    if (event.target === tasksContainer) {
+    if (event.target === tasksContainer || event.target === tasksDoneContainer) {
       return;
     }
 
