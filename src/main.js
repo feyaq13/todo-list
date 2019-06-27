@@ -27,17 +27,17 @@ function restoreOrCreateModel() {
   return todosModel;
 }
 
-function addTodo(todoName) {
-  todoName = getTodoName();
+function addTask(taskName) {
+  taskName = getTaskName();
 
   // TODO: сделать нормальную валидацию
-  if (!todoName) {
+  if (!taskName) {
     alert("Нельзя добавить пустую задачу");
 
     return;
   }
 
-  model.currentTodos.push(todoName);
+  model.currentTodos.push(taskName);
 
   clearFieldTask();
   saveModel(model);
@@ -45,7 +45,7 @@ function addTodo(todoName) {
 }
 
 // отдаёт значение поля таски
-function getTodoName() {
+function getTaskName() {
   const inputForTask = document.getElementsByClassName("input-add-task")[0];
   return inputForTask.value;
 }
@@ -70,8 +70,8 @@ function renderModel(model) {
   const tasksContainer = document.getElementsByClassName("all-tasks-field")[0];
   tasksContainer.innerHTML = "";
 
-  for (const todo of model.currentTodos) {
-    tasksContainer.innerHTML += generateTodoHtml(todo);
+  for (const task of model.currentTodos) {
+    tasksContainer.innerHTML += generateTodoHtml(task);
   }
 
   const tasksListDone = document.getElementsByClassName("tasks-list-done")[0];
@@ -83,8 +83,8 @@ function renderModel(model) {
     tasksListDone.textContent = "Завершённые задачи";
   }
 
-  for (const todo of model.finishedTodos) {
-    tasksDone.innerHTML += generateTodoHtml(todo, true);
+  for (const task of model.finishedTodos) {
+    tasksDone.innerHTML += generateTodoHtml(task, true);
   }
 
   function generateTodoHtml(name, isDone) {
@@ -115,7 +115,7 @@ function init() {
 
   // добавляет карточку по нажатию кнопки "Добавить"
   const buttonAddTask = document.getElementsByClassName("btn-add-task")[0];
-  buttonAddTask.addEventListener("click", addTodo);
+  buttonAddTask.addEventListener("click", addTask);
 
   const tasksContainer = document.getElementsByClassName("all-tasks-field")[0];
   tasksContainer.addEventListener("click", checkTarget);
@@ -141,7 +141,7 @@ function init() {
 
   function enterHandler(e) {
     if (e.key === "Enter") {
-      addTodo();
+      addTask();
     }
   }
 }
