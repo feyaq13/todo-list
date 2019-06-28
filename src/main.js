@@ -7,10 +7,6 @@ init();
  * Восстанавливает модель из localStorage или создает новую
  */
 function restoreOrCreateModel() {
-  //
-  // https://repl.it/@feyaq13/createCardTask
-  // https://repl.it/@feyaq13/functionalAdding
-  //
 
   // восстанавливает модель
   if (localStorage.todosModel) {
@@ -19,9 +15,7 @@ function restoreOrCreateModel() {
 
   // создаёт модель
   const todosModel = {
-    // добавляется при нажатии на кнопку "Добавить"
     currentTodos: [],
-    // перемещается по клику на таске, которая уже существует
     finishedTodos: []
   };
 
@@ -31,7 +25,6 @@ function restoreOrCreateModel() {
 function addTask(taskName) {
   taskName = getTaskName();
 
-  // TODO: сделать нормальную валидацию
   if (!validate()) {
 
     return
@@ -42,7 +35,7 @@ function addTask(taskName) {
    *  {name: 'foo', id: '1jD0fIk'},
    *  {name: 'foo', id: '1gHV0fIk'}
    * ]
-   * 
+   *
    * * * * * * * * потом * * * * * * *
    * class Todo {
    *  constructor(name) {
@@ -93,7 +86,6 @@ function saveModel(model) {
 /**
  * Визуализирует модель на странице
  */
-// TODO: проверить количество отрисовок
 function renderModel(model) {
   const tasksContainer = document.getElementsByClassName("all-tasks-container")[0];
   tasksContainer.innerHTML = "";
@@ -141,7 +133,6 @@ function init() {
   inputForTask.addEventListener("keydown", enterHandler);
   inputForTask.addEventListener("input", validate);
 
-  // добавляет карточку по нажатию кнопки "Добавить"
   const buttonAddTask = document.getElementsByClassName("btn-add-task")[0];
   buttonAddTask.addEventListener("click", addTask);
 
@@ -154,7 +145,7 @@ function init() {
   renderModel(model);
 
   function checkTarget(event) {
-    // проверяем на что нажимает пользователь: при попадании мимо нужного блока, просто будет выход из функции
+    // проверяет на что нажимает пользователь: при попадании мимо нужного блока, просто будет выход из функции
     if (event.target === tasksContainer || event.target === tasksDoneContainer) {
       return;
     }
