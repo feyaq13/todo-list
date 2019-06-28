@@ -32,6 +32,7 @@ function addTask(taskName) {
 
   // TODO: сделать нормальную валидацию
   if (!validate()) {
+
     return
   }
 
@@ -81,7 +82,7 @@ function saveModel(model) {
  */
 // TODO: проверить количество отрисовок
 function renderModel(model) {
-  const tasksContainer = document.getElementsByClassName("all-tasks-field")[0];
+  const tasksContainer = document.getElementsByClassName("all-tasks-container")[0];
   tasksContainer.innerHTML = "";
 
   for (const task of model.currentTodos) {
@@ -132,7 +133,7 @@ function init() {
   const buttonAddTask = document.getElementsByClassName("btn-add-task")[0];
   buttonAddTask.addEventListener("click", addTask);
 
-  const tasksContainer = document.getElementsByClassName("all-tasks-field")[0];
+  const tasksContainer = document.getElementsByClassName("all-tasks-container")[0];
   tasksContainer.addEventListener("click", checkTarget);
 
   const tasksDoneContainer = document.getElementsByClassName("tasks-done")[0];

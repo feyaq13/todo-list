@@ -12,22 +12,23 @@
 <body>
   <h1 class="h1 my-5 text-muted text-center">TO DO List</h1>
   <div class="container">
-    <div class="row justify-content-md-center">
-      <div class="col-12">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control input-add-task" placeholder="Что сделать?"
-            aria-describedby="button-addon2">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary btn-add-task" type="button" id="button-addon2">Добавить</button>
-          </div>
-        </div>
+
+    <div class="input-group mb-3">
+      <input type="text" class="input-add-task form-control"
+        placeholder="Что сделать?" aria-describedby="button-addon2">
+      <div class="input-group-append">
+        <button class="btn-add-task btn btn-outline-secondary" type="button" id="button-addon2">Добавить</button>
       </div>
     </div>
-    <div class="all-tasks-field"></div>
-    <div class="tasks-done-block">
-      <p class="font-italic border-top mt-5 mb-5 text-muted text-center tasks-list-done">Завершённых задач нет</p>
-      <div class="tasks-done"></div>
-    </div>
+
+    <div class="all-tasks-container"></div>
+
+    <p class="tasks-list-done font-italic border-top mt-5 mb-5 text-muted text-center">
+      Завершённых задач нет
+    </p>
+
+    <div class="tasks-done"></div>
+
   </div>
 
   <footer class="footer my-5 pt-5 text-muted text-center">
