@@ -31,10 +31,8 @@ function addTask(taskName) {
   taskName = getTaskName();
 
   // TODO: сделать нормальную валидацию
-  if (!taskName) {
-    alert("Нельзя добавить пустую задачу");
-
-    return;
+  if (!validate()) {
+    return
   }
 
   model.currentTodos.push(taskName);
@@ -42,6 +40,22 @@ function addTask(taskName) {
   clearFieldTask();
   saveModel(model);
   renderModel(model);
+}
+
+function validate(taskName) {
+  taskName = getTaskName();
+  const inputForTask = document.getElementsByClassName("input-add-task")[0];
+  const buttonAddTask = document.getElementsByClassName("btn-add-task")[0];
+
+  if (!taskName) {
+    inputForTask.classList.add('is-invalid');
+    buttonAddTask.classList.add('btn-outline-danger');
+    return false;
+  } else {
+    inputForTask.classList.replace('is-invalid', 'is-valid') || inputForTask.classList.add('is-valid');
+    buttonAddTask.classList.replace('btn-outline-danger', 'btn-outline-success') || buttonAddTask.classList.add('btn-outline-success');
+    return true;
+  }
 }
 
 // отдаёт значение поля таски
@@ -93,8 +107,8 @@ function renderModel(model) {
         <div class="input-group-prepend">
           <div class="input-group-text">
             <input class="input-checkbox" type="checkbox" ${
-              isDone ? "checked" : ""
-            } aria-label="Checkbox for following text input">
+      isDone ? "checked" : ""
+      } aria-label="Checkbox for following text input">
           </div>
         </div>
         <input value="${name}" type="text" class="form-control input-task_checked" aria-label="Text input with checkbox">
@@ -112,6 +126,7 @@ function init() {
   const inputForTask = document.getElementsByClassName("input-add-task")[0];
 
   inputForTask.addEventListener("keydown", enterHandler);
+  inputForTask.addEventListener("input", validate);
 
   // добавляет карточку по нажатию кнопки "Добавить"
   const buttonAddTask = document.getElementsByClassName("btn-add-task")[0];
@@ -135,7 +150,7 @@ function init() {
 
     const element = $(event.target.offsetParent).slideToggle(
       "fast",
-      function() {
+      function () {
         toggleTodoStatus(element, model);
         element.slideToggle();
       }
