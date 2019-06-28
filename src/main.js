@@ -1,4 +1,5 @@
 const model = restoreOrCreateModel();
+const inputForTask = document.getElementsByClassName("input-add-task")[0];
 
 init();
 
@@ -36,18 +37,30 @@ function addTask(taskName) {
     return
   }
 
+  /**
+   * model.currentTodos = [
+   *  {name: 'foo', id: '1jD0fIk'},
+   *  {name: 'foo', id: '1gHV0fIk'}
+   * ]
+   * 
+   * * * * * * * * потом * * * * * * *
+   * class Todo {
+   *  constructor(name) {
+   *    this.name = name
+   *    this.id = MD5(Math.random())
+   *  }
+   * }
+   */
   model.currentTodos.push(taskName);
 
-  clearFieldTask();
+  resetInputs();
   saveModel(model);
   renderModel(model);
 }
 
-function validate(taskName) {
-  taskName = getTaskName();
-  const inputForTask = document.getElementsByClassName("input-add-task")[0];
+function validate() {
+  const taskName = getTaskName();
   const buttonAddTask = document.getElementsByClassName("btn-add-task")[0];
-
   if (!taskName) {
     inputForTask.classList.add('is-invalid');
     buttonAddTask.classList.add('btn-outline-danger');
@@ -61,13 +74,13 @@ function validate(taskName) {
 
 // отдаёт значение поля таски
 function getTaskName() {
-  const inputForTask = document.getElementsByClassName("input-add-task")[0];
   return inputForTask.value;
 }
 
 // очищает поле ввода таски
-function clearFieldTask() {
-  document.getElementsByClassName("input-add-task")[0].value = null;
+function resetInputs() {
+  // помимо очистки поля нужно сбрасывать его цвет
+  inputForTask.value = null;
 }
 
 /**
@@ -124,7 +137,6 @@ function renderModel(model) {
  * (добавляет обработчики и тд)
  */
 function init() {
-  const inputForTask = document.getElementsByClassName("input-add-task")[0];
   inputForTask.focus()
   inputForTask.addEventListener("keydown", enterHandler);
   inputForTask.addEventListener("input", validate);
@@ -147,15 +159,14 @@ function init() {
       return;
     }
 
-    checkedTask(event);
+    triggerTaskCheckbox(event);
 
-    const element = $(event.target.offsetParent).slideToggle(
-      "fast",
-      function () {
-        toggleTodoStatus(element, model);
-        element.slideToggle();
-      }
-    );
+    const element = $(event.target.offsetParent).slideToggle("fast", afterAnimation);
+
+    function afterAnimation() {
+      toggleTodoStatus(element, model);
+      element.slideToggle();
+    }
   }
 
   function enterHandler(e) {
@@ -166,7 +177,7 @@ function init() {
 }
 
 // TODO: сделать функцию-проверку таски, на наличие метки checked внезависимости от того, находится ли она в currentTodos или в finishedTodos
-function checkedTask(event) {
+function triggerTaskCheckbox(event) {
   // toggleCheckTask()
   event.target.offsetParent.getElementsByClassName(
     "input-checkbox"
