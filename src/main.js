@@ -124,7 +124,7 @@ function renderModel(model) {
  */
 function init() {
   const inputForTask = document.getElementsByClassName("input-add-task")[0];
-
+  inputForTask.focus()
   inputForTask.addEventListener("keydown", enterHandler);
   inputForTask.addEventListener("input", validate);
 
