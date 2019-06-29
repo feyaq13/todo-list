@@ -1,8 +1,8 @@
 const model = restoreOrCreateModel();
 const inputForTask = document.getElementsByClassName("input-add-task")[0];
+const hash = window.murmurHash3.x86.hash128;
 
 init();
-alert(window.murmurHash3.x86.hash128('foo'))
 
 /**
  * Восстанавливает модель из localStorage или создает новую
@@ -25,6 +25,7 @@ function restoreOrCreateModel() {
 
 function addTask(taskName) {
   taskName = getTaskName();
+  let id = hash(taskName) + Math.random();
 
   if (!validate()) {
 
@@ -45,7 +46,7 @@ function addTask(taskName) {
    *  }
    * }
    */
-  model.currentTodos.push(taskName);
+  model.currentTodos.push({ name: taskName, id: id });
 
   resetInputs();
   saveModel(model);
@@ -92,7 +93,7 @@ function renderModel(model) {
   tasksContainer.innerHTML = "";
 
   for (const task of model.currentTodos) {
-    tasksContainer.innerHTML += generateTodoHtml(task);
+    tasksContainer.innerHTML += generateTodoHtml(task.name);
   }
 
   const tasksListDone = document.getElementsByClassName("tasks-list-done")[0];
@@ -105,7 +106,7 @@ function renderModel(model) {
   }
 
   for (const task of model.finishedTodos) {
-    tasksDone.innerHTML += generateTodoHtml(task, true);
+    tasksDone.innerHTML += generateTodoHtml(task.name, true);
   }
 
   function generateTodoHtml(name, isDone) {
@@ -176,19 +177,36 @@ function triggerTaskCheckbox(event) {
   )[0].checked = true;
 }
 
-function toggleTodoStatus(element) {
+function toggleTodoStatus(element, model) {
   const triggeredElement = element[0].getElementsByClassName(
     "input-task_checked"
   )[0];
   const taskName = triggeredElement.value;
-  const isDone = model.finishedTodos.includes(taskName);
+  // let task
+
+  function findTask() {
+    for (typeTask in model) {
+      model[typeTask].find(
+        function (task) {
+          if (task.name == taskName) {
+            return task
+          }
+        }
+      )
+      break
+    }
+  }
+
+  let task = findTask()
+
+  const isDone = model.finishedTodos.includes(task.id);
 
   if (isDone) {
-    model.finishedTodos.splice(model.finishedTodos.indexOf(taskName), 1);
-    model.currentTodos.push(taskName);
+    model.finishedTodos.splice(model.finishedTodos.indexOf(task.id), 1);
+    model.currentTodos.push(task.id);
   } else {
-    model.currentTodos.splice(model.currentTodos.indexOf(taskName), 1);
-    model.finishedTodos.push(taskName);
+    model.currentTodos.splice(model.currentTodos.indexOf(task.id), 1);
+    model.finishedTodos.push(task.id);
   }
 
   saveModel(model);
