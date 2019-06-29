@@ -2,6 +2,7 @@ const model = restoreOrCreateModel();
 const inputForTask = document.getElementsByClassName("input-add-task")[0];
 
 init();
+alert(window.murmurHash3.x86.hash128('foo'))
 
 /**
  * Восстанавливает модель из localStorage или создает новую
