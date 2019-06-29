@@ -1,8 +1,8 @@
 const model = restoreOrCreateModel();
 const inputForTask = document.getElementsByClassName("input-add-task")[0];
+const hash = window.murmurHash3.x86.hash128;
 
 init();
-alert(window.murmurHash3.x86.hash128('foo'))
 
 /**
  * Восстанавливает модель из localStorage или создает новую
@@ -25,6 +25,7 @@ function restoreOrCreateModel() {
 
 function addTask(taskName) {
   taskName = getTaskName();
+  let id = hash(taskName);
 
   if (!validate()) {
 
@@ -45,7 +46,7 @@ function addTask(taskName) {
    *  }
    * }
    */
-  model.currentTodos.push(taskName);
+  model.currentTodos.push({ name: taskName, id: id });
 
   resetInputs();
   saveModel(model);
@@ -92,7 +93,7 @@ function renderModel(model) {
   tasksContainer.innerHTML = "";
 
   for (const task of model.currentTodos) {
-    tasksContainer.innerHTML += generateTodoHtml(task);
+    tasksContainer.innerHTML += generateTodoHtml(task.name);
   }
 
   const tasksListDone = document.getElementsByClassName("tasks-list-done")[0];
@@ -105,7 +106,7 @@ function renderModel(model) {
   }
 
   for (const task of model.finishedTodos) {
-    tasksDone.innerHTML += generateTodoHtml(task, true);
+    tasksDone.innerHTML += generateTodoHtml(task.name, true);
   }
 
   function generateTodoHtml(name, isDone) {
@@ -181,14 +182,20 @@ function toggleTodoStatus(element) {
     "input-task_checked"
   )[0];
   const taskName = triggeredElement.value;
-  const isDone = model.finishedTodos.includes(taskName);
+
+  const findElement = model.currentTodos.find(function (element) {
+    element.name === taskName
+    return element
+  })
+
+  const isDone = model.finishedTodos.includes(findElement.id);
 
   if (isDone) {
-    model.finishedTodos.splice(model.finishedTodos.indexOf(taskName), 1);
-    model.currentTodos.push(taskName);
+    model.finishedTodos.splice(model.finishedTodos.indexOf(findElement), 1);
+    model.currentTodos.push(findElement);
   } else {
-    model.currentTodos.splice(model.currentTodos.indexOf(taskName), 1);
-    model.finishedTodos.push(taskName);
+    model.currentTodos.splice(model.currentTodos.indexOf(findElement), 1);
+    model.finishedTodos.push(findElement);
   }
 
   saveModel(model);
