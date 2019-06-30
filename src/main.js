@@ -4,6 +4,7 @@
  */
 const model = restoreOrCreateModel();
 const inputForTask = document.getElementsByClassName("input-add-task")[0];
+const buttonAddTask = document.getElementsByClassName("btn-add-task")[0];
 
 init();
 
@@ -49,7 +50,6 @@ function addTask() {
 
 function validate() {
   const taskName = getTaskName();
-  const buttonAddTask = document.getElementsByClassName("btn-add-task")[0];
 
   if (!taskName) {
     inputForTask.classList.add("is-invalid");
@@ -78,6 +78,8 @@ function getTaskName() {
 function resetInputs() {
   // todo: помимо очистки поля нужно сбрасывать его цвет
   inputForTask.value = null;
+  inputForTask.classList.remove("is-valid");
+  buttonAddTask.classList.remove("btn-outline-success");
 }
 
 /**
@@ -140,7 +142,6 @@ function init() {
   inputForTask.addEventListener("keydown", enterHandler);
   inputForTask.addEventListener("input", validate);
 
-  const buttonAddTask = document.getElementsByClassName("btn-add-task")[0];
   buttonAddTask.addEventListener("click", addTask);
 
   const tasksContainer = document.getElementsByClassName(
