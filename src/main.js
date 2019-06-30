@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const model = restoreOrCreateModel();
 const inputForTask = document.getElementsByClassName("input-add-task")[0];
 const hash = window.murmurHash3.x86.hash128;
@@ -23,9 +24,9 @@ function restoreOrCreateModel() {
   return todosModel;
 }
 
-function addTask(taskName) {
-  taskName = getTaskName();
-  let id = hash(taskName) + Math.random();
+function addTask() {
+  const taskName = getTaskName();
+  let id = hash(taskName + Math.random());
 
   if (!validate()) {
 
@@ -46,7 +47,8 @@ function addTask(taskName) {
    *  }
    * }
    */
-  model.currentTodos.push({ name: taskName, id: id });
+
+  model.currentTodos.push({ "name": taskName, "id": id });
 
   resetInputs();
   saveModel(model);
@@ -93,7 +95,7 @@ function renderModel(model) {
   tasksContainer.innerHTML = "";
 
   for (const task of model.currentTodos) {
-    tasksContainer.innerHTML += generateTodoHtml(task.name);
+    tasksContainer.innerHTML += generateTodoHtml(task.name, task.id);
   }
 
   const tasksListDone = document.getElementsByClassName("tasks-list-done")[0];
@@ -106,10 +108,10 @@ function renderModel(model) {
   }
 
   for (const task of model.finishedTodos) {
-    tasksDone.innerHTML += generateTodoHtml(task.name, true);
+    tasksDone.innerHTML += generateTodoHtml(task.name, task.id, true);
   }
 
-  function generateTodoHtml(name, isDone) {
+  function generateTodoHtml(name, id, isDone) {
     const templateHtml = `
       <div class="input-group mb-3 task">
         <div class="input-group-prepend">
@@ -119,7 +121,7 @@ function renderModel(model) {
       } aria-label="Checkbox for following text input">
           </div>
         </div>
-        <input value="${name}" type="text" class="form-control input-task_checked" aria-label="Text input with checkbox">
+        <input value="${name}" data-id="${id}" type="text" class="form-control input-task_checked" aria-label="Text input with checkbox">
       </div>
   `;
     return templateHtml;
@@ -181,34 +183,83 @@ function toggleTodoStatus(element, model) {
   const triggeredElement = element[0].getElementsByClassName(
     "input-task_checked"
   )[0];
-  const taskName = triggeredElement.value;
-  // let task
+  // const taskName = triggeredElement.value;
+  const taskId = String(triggeredElement.dataset.id);
 
   function findTask() {
-    for (typeTask in model) {
-      model[typeTask].find(
-        function (task) {
-          if (task.name == taskName) {
-            return task
-          }
-        }
-      )
-      break
+    var targetTask = 0
+    for (const typeTask in model) {
+      while (!targetTask) {
+        targetTask = model[typeTask].find(function (task) {
+          console.log(task.id === taskId)
+          return task.id === taskId
+        })
+        return targetTask
+      }
+      // targetTask = model[typeTask].find(function (task) {
+      //   console.log(task.id === taskId)
+      //   return task.id === taskId
+      // })
+      // if (targetTask) {
+      //   return targetTask
+      // }
     }
   }
 
   let task = findTask()
 
-  const isDone = model.finishedTodos.includes(task.id);
+  const isDone = model.finishedTodos.includes(task);
 
   if (isDone) {
-    model.finishedTodos.splice(model.finishedTodos.indexOf(task.id), 1);
-    model.currentTodos.push(task.id);
+    model.finishedTodos.splice(model.finishedTodos.indexOf(task), 1);
+    model.currentTodos.push(task);
   } else {
-    model.currentTodos.splice(model.currentTodos.indexOf(task.id), 1);
-    model.finishedTodos.push(task.id);
+    model.currentTodos.splice(model.currentTodos.indexOf(task), 1);
+    model.finishedTodos.push(task);
   }
 
   saveModel(model);
   renderModel(model);
 }
+
+// const numbers = { someNums: [{ "id": "1" }, { "id": "10" }], sdf: [{ "id": "3" }, { "id": "20" }] }
+
+// // const h = "2c152d585288d12c8c5c65f80096a86b"
+// const n = '10'
+
+// function find() {
+//   var target = 0
+//   for (foo in numbers) {
+//     target = numbers[foo].find(function (num) {
+//       console.log(num.id === n)
+//       num.id === n
+//       // num.id === h
+//     })
+//   }
+//   return target
+// }
+
+// let num = find()
+
+// const numbers = { someNum: [{ "id": "2c152d585288d12c8c5c65f80096a86b" }, { "id": "10" }], someNums: [{ "id": "2" }, { "id": "10" }] }
+
+// const h = '2c152d585288d12c8c5c65f80096a86b'
+// const n = '10'
+
+// function find() {
+//   var target
+//   for (foo in numbers) {
+//     target = numbers[foo].find(function (num, i, array) {
+//       console.log(array, [num])
+//       console.log(num.id === h)
+//       // return num.id === n
+//       return num.id === h
+//     })
+
+//     if (target) {
+//       return target
+//     }
+//   }
+// }
+
+// let num = find()
