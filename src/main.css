@@ -4,11 +4,6 @@
 
 @media (max-width: 575.98px) {
   html {
-    font-size: 10px;
+    font-size: 12px;
   }
  }
-
-
-.task-hidden {
-  display: none;
-}
