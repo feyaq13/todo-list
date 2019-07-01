@@ -90,6 +90,42 @@ function saveModel(model) {
 }
 
 /**
+ * Поиск тасков на странице
+ */
+
+function searchTasks() {
+  const value = inputForTask.value
+  const regex = new RegExp("^" + value);
+  const filterModel = []
+
+  // for (typeTask in model) {
+  //   model[typeTask].filter(function (element) {
+  //     if (regex.test(element.name)) {
+  //       filterModel[typeTask].push(element)
+  //       return element
+  //     }
+  //   })
+  // }
+
+  let filterCurrentTodos = model.currentTodos.filter(function (element) {
+    if (regex.test(element.name)) {
+      return element;
+    }
+  })
+
+  let filterFinishedTodos = model.finishedTodos.filter(function (element) {
+    if (regex.test(element.name)) {
+      return element;
+    }
+  })
+
+  filterModel.currentTodos = filterCurrentTodos;
+  filterModel.finishedTodos = filterFinishedTodos;
+
+  renderModel(filterModel);
+}
+
+/**
  * Визуализирует модель на странице
  */
 function renderModel(model) {
@@ -141,6 +177,7 @@ function init() {
   inputForTask.focus();
   inputForTask.addEventListener("keydown", enterHandler);
   inputForTask.addEventListener("input", validate);
+  inputForTask.addEventListener("input", searchTasks);
 
   buttonAddTask.addEventListener("click", addTask);
 
