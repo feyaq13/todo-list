@@ -157,7 +157,7 @@ function renderModel(model) {
 
   function generateTodoHtml(name, id, isDone) {
     const templateHtml = `
-      <div class="input-group mt-3 task">
+      <div class="input-group mb-3 task">
         <div class="input-group-prepend">
           <div class="input-group-text">
             <input class="input-checkbox" type="checkbox" ${
