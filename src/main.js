@@ -96,33 +96,36 @@ function saveModel(model) {
 function searchTasks() {
   const value = inputForTask.value
   const regex = new RegExp("^" + value);
-  const filterModel = []
+  const filteredModel = []
+  // let matchedTasks = filterModel()
 
-  // for (typeTask in model) {
-  //   model[typeTask].filter(function (element) {
-  //     if (regex.test(element.name)) {
-  //       filterModel[typeTask].push(element)
-  //       return element
+  // // собирает в один массив, из-за чего возникает ошибка при отрисовке
+  //   function filterModel() {
+  //     let filteredModel
+  //     for (typeTask in model) {
+  //       filteredModel = model[typeTask].filter(
+  //         function (element) {
+  //           if (regex.test(element.name)) {
+  //             return element
+  //           }
+  //         })
   //     }
-  //   })
-  // }
+  //     return filteredModel
+  //   }
 
-  let filterCurrentTodos = model.currentTodos.filter(function (element) {
+  filteredModel.currentTodos = model.currentTodos.filter(function (element) {
     if (regex.test(element.name)) {
       return element;
     }
   })
 
-  let filterFinishedTodos = model.finishedTodos.filter(function (element) {
+  filteredModel.finishedTodos = model.finishedTodos.filter(function (element) {
     if (regex.test(element.name)) {
       return element;
     }
   })
 
-  filterModel.currentTodos = filterCurrentTodos;
-  filterModel.finishedTodos = filterFinishedTodos;
-
-  renderModel(filterModel);
+  renderModel(filteredModel);
 }
 
 /**
@@ -158,8 +161,8 @@ function renderModel(model) {
         <div class="input-group-prepend">
           <div class="input-group-text">
             <input class="input-checkbox" type="checkbox" ${
-              isDone ? "checked" : ""
-            } aria-label="Checkbox for following text input">
+      isDone ? "checked" : ""
+      } aria-label="Checkbox for following text input">
           </div>
         </div>
         <input value="${name}" data-id="${id}" type="text" class="form-control input-task_checked" aria-label="Text input with checkbox">
@@ -235,7 +238,7 @@ function toggleTodoStatus(element, model) {
   function findTaskById(id) {
     const allTasks = model.currentTodos.concat(model.finishedTodos);
 
-    return allTasks.find(function(task) {
+    return allTasks.find(function (task) {
       return task.id === id;
     });
   }
