@@ -95,35 +95,16 @@ function saveModel(model) {
 
 function searchTasks() {
   const value = inputForTask.value
-  const regex = new RegExp("^" + value);
-  const filteredModel = []
-  // let matchedTasks = filterModel()
 
-  // // собирает в один массив, из-за чего возникает ошибка при отрисовке
-  //   function filterModel() {
-  //     let filteredModel
-  //     for (typeTask in model) {
-  //       filteredModel = model[typeTask].filter(
-  //         function (element) {
-  //           if (regex.test(element.name)) {
-  //             return element
-  //           }
-  //         })
-  //     }
-  //     return filteredModel
-  //   }
+  let filteredModel = {
+    currentTodos: model.currentTodos.filter(function (element) {
+      return element.name.startsWith(value)
+    }),
 
-  filteredModel.currentTodos = model.currentTodos.filter(function (element) {
-    if (regex.test(element.name)) {
-      return element;
-    }
-  })
-
-  filteredModel.finishedTodos = model.finishedTodos.filter(function (element) {
-    if (regex.test(element.name)) {
-      return element;
-    }
-  })
+    finishedTodos: model.finishedTodos.filter(function (element) {
+      return element.name.startsWith(value)
+    }),
+  }
 
   renderModel(filteredModel);
 }
